@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrill Simulations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: none;
+        }
+
+        body, html {
+            background-color: #111; 
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- HEADER --- */
+        .header-container {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .top-left-logo {
+            width: 120px; 
+            height: auto;
+            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.6));
+            transition: transform 0.3s ease;
+        }
+
+        .top-left-logo:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-item {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 8px 15px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: #111;
+            background: #f1c40f;
+            transform: skewX(-15deg);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 20px 20px;
+            position: relative;
+        }
+
+        .hero-skew-tag {
+            background: #f1c40f; 
+            color: #111;
+            padding: 5px 20px;
+            transform: skewX(-15deg); 
+            margin-bottom: 10px;
+        }
+
+        .hero-skew-tag span {
+            display: block;
+            transform: skewX(15deg);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -3px;
+            text-shadow: 6px 6px 0px #000;
+            margin-bottom: 40px;
+        }
+
+        .see-more-btn {
+            background: #f1c40f;
+            color: #111;
+            padding: 20px 60px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            border: 4px solid #fff;
+            border-radius: 100px;
+            box-shadow: 8px 8px 0px #000;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .see-more-btn:hover {
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0px 12px 20px rgba(0,0,0,0.4);
+        }
+
+        .scroll-indicator {
+            fill: #f1c40f;
+            width: 40px;
+            height: 40px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- GRID SECTION --- */
+        .section-padding {
+            padding: 120px 5% 100px 5%; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            border-left: 10px solid #f1c40f;
+            padding-left: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .game-card:hover {
+            border-color: #f1c40f;
+            transform: translateY(-10px);
+            background: #252525;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: #f1c40f;
+            transition: color 0.3s ease;
+        }
+
+        .game-card:hover h3 {
+            color: #fff;
+        }
+
+        /* --- STRAIGHT MISSION SECTION --- */
+        .mission-section {
+            background: #f1c40f;
+            color: #111;
+            padding: 100px 5%;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            /* Removed SkewY */
+        }
+
+        .mission-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(#000 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+
+        .mission-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            /* Removed SkewY counter */
+        }
+
+        .mission-content h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .mission-content p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* --- STRAIGHT MARQUEE SECTION --- */
+        .tech-marquee {
+            background: #000;
+            height: 100px; 
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            border-top: 4px solid #f1c40f;
+            border-bottom: 2px solid #333;
+            position: relative;
+            z-index: 1;
+            /* Removed SkewY and negative margin */
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            animation: scroll 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 0 60px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .marquee-item:hover {
+            opacity: 1;
+            color: #f1c40f;
+            transform: scale(1.1);
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- BACK TO TOP BUTTON --- */
+        #backToTop {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: #f1c40f;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #backToTop svg {
+            width: 30px;
+            height: 30px;
+            fill: #111;
+            transform: rotate(180deg);
+        }
+
+        #backToTop:hover {
+            transform: translateY(-5px);
+            background: #fff;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #f1c40f;
+            position: fixed;
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            border: 1.5px solid #000; 
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        #cursor-dot.expanding {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(241, 196, 15, 0.4);
+            border: 3px solid #f1c40f;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 100px 0 50px 0;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 4rem; }
+            .section-title { font-size: 2rem; }
+            .mission-content h2 { font-size: 2.2rem; }
+            .marquee-item { font-size: 1.4rem; padding: 0 30px; }
+            .tech-marquee { height: 70px; }
+            #backToTop { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-container">
+        <img src="logo.png" alt="Logo" class="top-left-logo interactable">
+        <nav class="nav-links">
+            <a href="#about" class="nav-item interactable">About</a>
+            <a href="#games" class="nav-item interactable">Games</a>
+            <a href="#store" class="nav-item interactable">Store</a>
+        </nav>
+    </header>
+
+    <div id="cursor-dot"></div>
+
+    <a href="#" id="backToTop" class="interactable" aria-label="Back to top">
+        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </a>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-skew-tag"><span>Next Gen Simulation</span></div>
+            <h1 class="hero-title">THRILL<br>SIMULATIONS</h1>
+            <a href="#games" class="see-more-btn interactable">See More</a>
+            
+            <svg class="scroll-indicator" viewBox="0 0 24 24">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+        </section>
+
+        <section id="games" class="section-padding">
+            <h2 class="section-title">What we do</h2>
+            <div class="games-grid">
+                <div class="game-card interactable">
+                    <h3>Create Immersion</h3>
+                    <p>Building hyper-realistic environments where every texture and sound pulls you deeper into the simulation.</p>
+                </div>
+                <div class="game-card interactable">
+                    <h3>Support Developers</h3>
+                    <p>Providing cutting-edge tools and asset pipelines to help creators push the boundaries of modern physics.</p>
+                </div>
+                <div class="game-card interactable">
+                    <h3>Maximise Fun</h3>
+                    <p>Fine-tuning the balance between clinical realism and heart-pounding gameplay for the ultimate thrill.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="mission-section">
+            <div class="mission-content">
+                <h2>Our Mission</h2>
+                <p>We bridge the gap between complex engineering and pure entertainment. By empowering developers with robust simulation frameworks and delivering uncompromising realism to players, we define the future of digital presence.</p>
+            </div>
+        </section>
+
+        <div class="tech-marquee">
+            <div class="marquee-content">
+                <div class="marquee-item">Unreal Engine 5</div>
+                <div class="marquee-item">C++</div>
+                <div class="marquee-item">Lua</div>
+                <div class="marquee-item">Vulkan</div>
+                <div class="marquee-item">DirectX 12</div>
+                <div class="marquee-item">PhysX</div>
+                <div class="marquee-item">Unreal Engine 5</div>
+                <div class="marquee-item">C++</div>
+                <div class="marquee-item">Nvidia RTX</div>
+                <div class="marquee-item">Vulkan</div>
+                <div class="marquee-item">DirectX 12</div>
+                <div class="marquee-item">PhysX</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; <span id="year"></span> Thrill Simulations. All Rights Reserved.
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const dot = document.getElementById('cursor-dot');
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = `${e.clientX}px`;
+            dot.style.top = `${e.clientY}px`;
+        });
+
+        const interactables = document.querySelectorAll('.interactable');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => dot.classList.add('expanding'));
+            el.addEventListener('mouseleave', () => dot.classList.remove('expanding'));
+        });
+
+        const btt = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                btt.classList.add('show');
+            } else {
+                btt.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
